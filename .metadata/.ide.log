@@ -964,3 +964,11 @@
 2021-11-05 20:54:26,625 [INFO] McuFinderGlobals:52 - Set McuFinderConnectedMode to true
 2021-11-05 20:54:26,627 [INFO] ApiDb:276 - Save user favorites file /home/pato/.stm32cubeide/favorites.mcus.txt: 0 item(s)
 2021-11-05 20:54:26,628 [INFO] ApiDb:280 - User favorites MCUs=[]
+2023-06-22 17:16:01,834 [INFO] Activator:176 - 
+
+
+2023-06-22 17:16:01,836 [INFO] Activator:177 - !SESSION log4j initialized
+2023-06-22 17:16:04,630 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2023-06-22 17:16:26,234 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2023-06-22 17:16:26,235 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2023-06-22 17:16:26,236 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
