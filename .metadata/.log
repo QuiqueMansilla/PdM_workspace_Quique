@@ -3271,3 +3271,21 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY org.eclipse.cdt.core 1 0 2023-06-24 22:36:38.419
 !MESSAGE Indexed 'Tarea1_1_SecuenciaLeds_F413ZH' (25 sources, 85 headers) in 2.04 sec: 5,758 declarations; 32,233 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0053%)
+!SESSION 2023-06-25 18:45:36.661 -----------------------------------------------
+eclipse.buildId=Version 1.12.1
+java.version=11.0.17
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=es_AR
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-06-25 18:45:47.021
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-06-25 18:45:47.023
+!MESSAGE Log4j2 initialized with config file /home/quique/Quique/Especializacion_Sistemas_Embebidos/CESE1_Programacion_de_Microprocesadores/PdM_workspace_Quique/.metadata/.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-06-25 18:45:55.241
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2023-06-25 18:50:04.072
+!MESSAGE Indexed 'Tarea1_2_InvSecuenciaLeds_F413ZH' (25 sources, 85 headers) in 5.65 sec: 5,758 declarations; 32,233 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0053%)
