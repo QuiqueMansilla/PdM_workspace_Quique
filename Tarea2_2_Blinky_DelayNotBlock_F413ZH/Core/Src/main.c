@@ -1,7 +1,7 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.c Project: Tarea1_1_SecuenciaLeds_F413ZH
+  * @file           : main.c  Project: Tarea2_2_Blinky_DelayNotBlock_F413ZH
   * @brief          : Main program body
   ******************************************************************************
   * @attention
@@ -69,6 +69,14 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+  /*Definicion de periodos en milisegundos para los LEDs de usuario*/
+  tick_t time_LD1_Pin = 100;
+  tick_t time_LD2_Pin = 500;
+  tick_t time_LD3_Pin = 1000;
+  /*Definicion estructuras de delay para los LEDs de usuario*/
+  delay_t delay_LD1;
+  delay_t delay_LD2;
+  delay_t delay_LD3;
 
   /* USER CODE END 1 */
 
@@ -78,22 +86,33 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  uint16_t LEDS[3] = {LD1_Pin, LD2_Pin, LD3_Pin}; /*Creo vector de LEDs de usuario*/
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  /*Inicializar funciones de delay para los LEDs de usuario*/
+  delayInit( &delay_LD1, time_LD1_Pin );
+  delayInit( &delay_LD2, time_LD2_Pin );
+  delayInit( &delay_LD3, time_LD3_Pin );
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();/*Inicializa los LEDs de usuario en 0" (RESET), el boton de usuario es activo alto e
-  	  	  	  	  inicializa en modo activo por flanco creciente*/
+  MX_GPIO_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
+  delayRead(&delay_LD1);/*Inicia conteo del delay la primera vez que se ejecuta*/
+  HAL_GPIO_WritePin(GPIOB, LD1_Pin, GPIO_PIN_SET);
+
+  delayRead(&delay_LD2);/*Inicia conteo del delay la primera vez que se ejecuta*/
+  HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_SET);
+
+  delayRead(&delay_LD3);/*Inicia conteo del delay la primera vez que se ejecuta*/
+  HAL_GPIO_WritePin(GPIOB, LD3_Pin, GPIO_PIN_SET);
 
   /* USER CODE END 2 */
 
@@ -101,16 +120,30 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for (uint8_t i = 0; i < 3; i++)
+    /* USER CODE END WHILE */
+	  if (delayRead(&delay_LD1))
 	  {
-	    HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_SET);
-	    HAL_Delay(200);
-	    HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_RESET);
-	    HAL_Delay(200);
+		  HAL_GPIO_TogglePin(GPIOB, LD1_Pin);
+		  delayRead(&delay_LD1);/*Cuando delayRead()=True, en la proxima ejecución
+		  	  	  	  	  	 *reinicia conteo del periodo programado*/
 	  }
-	  /* USER CODE END WHILE */
+
+	  if (delayRead(&delay_LD2))
+	  {
+		  HAL_GPIO_TogglePin(GPIOB, LD2_Pin);
+		  delayRead(&delay_LD2);/*Cuando delayRead()=True, en la proxima ejecución
+		  		  	  	  	  	 *reinicia conteo del periodo programado*/
+	  }
+
+	  if (delayRead(&delay_LD3))
+	  {
+	  	  HAL_GPIO_TogglePin(GPIOB, LD3_Pin);
+	  	  delayRead(&delay_LD3);/*Cuando delayRead()=True, en la proxima ejecución
+	  	  		  	  	  	  	 *reinicia conteo del periodo programado*/
+	   }
+
+    /* USER CODE BEGIN 3 */
   }
-  /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
@@ -285,7 +318,38 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void delayInit( delay_t *delay, tick_t duration )
+{
+	delay->startTime = HAL_GetTick(); /*Toma el valor del Tick de partida*/
+	delay->duration = duration;
+	delay->running = false;
 
+}
+
+/*Esta funcion debe ser evaluada asinando el valor que devuelve a una variable tipo bool_t*/
+bool_t delayRead( delay_t *delay )
+{
+	if(delay->running == false)
+	{
+		delay->startTime = HAL_GetTick(); /*Captura el valor inicial de la cuenta del tick*/
+		delay->running = true;
+	}
+
+	/*Condicion: si marca de tiempo actual - marca de tiempo inicial >= duracion*/
+	if ( (HAL_GetTick() - delay->startTime) >= delay->duration )
+	{
+		/*Se cumplio el tiempo de retardo a medir*/
+		delay->running = false;
+		return true;
+	}
+	return false;
+}
+
+/*delayWrite() cambia el valor de la duracion del periodo de tiempo a cumplir*/
+void delayWrite( delay_t *delay, tick_t duration )
+{
+	delay->duration = duration;
+}
 /* USER CODE END 4 */
 
 /**

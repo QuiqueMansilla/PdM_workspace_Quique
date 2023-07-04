@@ -1,7 +1,7 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.c Project: Tarea1_1_SecuenciaLeds_F413ZH
+  * @file           : main.c Project: Tarea2_1_DelayNoyBlock_413ZH
   * @brief          : Main program body
   ******************************************************************************
   * @attention
@@ -78,7 +78,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  uint16_t LEDS[3] = {LD1_Pin, LD2_Pin, LD3_Pin}; /*Creo vector de LEDs de usuario*/
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -89,8 +89,7 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();/*Inicializa los LEDs de usuario en 0" (RESET), el boton de usuario es activo alto e
-  	  	  	  	  inicializa en modo activo por flanco creciente*/
+  MX_GPIO_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
@@ -101,16 +100,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for (uint8_t i = 0; i < 3; i++)
-	  {
-	    HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_SET);
-	    HAL_Delay(200);
-	    HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_RESET);
-	    HAL_Delay(200);
-	  }
-	  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   }
-  /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
@@ -285,7 +278,38 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void delayInit( delay_t *delay, tick_t duration )
+{
+	delay->startTime = HAL_GetTick(); /*Toma el valor del Tick de partida*/
+	delay->duration = duration;
+	delay->running = false;
 
+}
+
+/*Esta funcion debe ser evaluada asinando el valor que devuelve a una variable tipo bool_t*/
+bool_t delayRead( delay_t *delay )
+{
+	if(delay->running == false)
+	{
+		delay->startTime = HAL_GetTick(); /*Captura el valor inicial de la cuenta del tick*/
+		delay->running = true;
+	}
+
+	/*Condicion: si marca de tiempo actual - marca de tiempo inicial >= duracion*/
+	if ( (HAL_GetTick() - delay->startTime) >= delay->duration )
+	{
+		/*Se cumplio el tiempo de retardo a medir*/
+		delay->running = false;
+		return true;
+	}
+	return false;
+}
+
+/*delayWrite() cambia el valor de la duracion del periodo de tiempo a cumplir*/
+void delayWrite( delay_t *delay, tick_t duration )
+{
+	delay->duration = duration;
+}
 /* USER CODE END 4 */
 
 /**
