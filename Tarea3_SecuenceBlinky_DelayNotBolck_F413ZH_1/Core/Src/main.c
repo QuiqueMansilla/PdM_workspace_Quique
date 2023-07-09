@@ -1,7 +1,7 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.c Tarea1_2_InvSecuanciaLeds_F413ZH
+  * @file           : main.c Tarea3_SecuenceBlinky_DelayNotBlock_F413ZH_1
   * @brief          : Main program body
   ******************************************************************************
   * @attention
@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "API_delay.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -31,7 +32,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+/*Definition of periods in milliseconds for the USER LEDs*/
+#define TIME_LD1 200
+#define TIME_LD2 200
+#define TIME_LD3 200
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -42,8 +46,6 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart3;
 
-PCD_HandleTypeDef hpcd_USB_OTG_FS;
-
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -52,7 +54,7 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
-static void MX_USB_OTG_FS_PCD_Init(void);
+void Error_Handler(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -71,6 +73,14 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+  /*Definition of delay structures for the USER LEDs*/
+  delay_t delay_LD1;
+  delay_t delay_LD2;
+  delay_t delay_LD3;
+
+  bool StatusLD1_Pin = false;
+  bool StatusLD2_Pin = false;
+  bool StatusLD3_Pin = false;
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -78,8 +88,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  uint16_t LEDS[3] = {LD1_Pin, LD2_Pin, LD3_Pin}; /*Creo vector de LEDs de usuario*/
-  uint16_t User_Button;
 
   /* USER CODE END Init */
 
@@ -87,53 +95,62 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  /*Inicializar funciones de delay para los LEDs de usuario*/
+  delayInit( &delay_LD1, TIME_LD1 );
+  delayInit( &delay_LD2, TIME_LD2 );
+  delayInit( &delay_LD3, TIME_LD3 );
 
-  /* USER CODE END SysInit */
+    /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();/*Inicializa los LEDs de usuario en 0" (RESET), el boton de usuario es activo alto e
-  	  	  	  	  inicializa en modo activo por flanco creciente*/
+  MX_GPIO_Init();
   MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
 
   /* USER CODE BEGIN 2 */
-  User_Button = HAL_GPIO_ReadPin(GPIOC, USER_Btn_Pin);
+  delayRead(&delay_LD1);/*Inicia conteo del delay la primera vez que se ejecuta*/
+  HAL_GPIO_WritePin(GPIOB, LD1_Pin, GPIO_PIN_RESET); /*LD1_Pin Off*/
+  StatusLD1_Pin = GetStatus_GPIO_Pin(GPIOB, LD1_Pin);
+
+  delayRead(&delay_LD2);/*Inicia conteo del delay la primera vez que se ejecuta*/
+  HAL_GPIO_WritePin(GPIOB, LD2_Pin, GPIO_PIN_RESET); /*LD2_Pin Off*/
+  StatusLD2_Pin = GetStatus_GPIO_Pin(GPIOB, LD2_Pin);
+
+  delayRead(&delay_LD3);/*Inicia conteo del delay la primera vez que se ejecuta*/
+  HAL_GPIO_WritePin(GPIOB, LD3_Pin, GPIO_PIN_RESET); /*LD3_Pin Off*/
+  StatusLD3_Pin = GetStatus_GPIO_Pin(GPIOB, LD3_Pin);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	while (User_Button == 1)
+    /* USER CODE END WHILE */
+	if (delayRead(&delay_LD1) && (!StatusLD2_Pin) && (!StatusLD3_Pin))
 	{
-		for (uint8_t i = 0; i < 3; i++)
-		{
-			HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_SET);
-			HAL_Delay(200);
-			HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_RESET);
-			HAL_Delay(200);
-		}
-		User_Button = HAL_GPIO_ReadPin(GPIOC, USER_Btn_Pin);
-		User_Button = !User_Button;
+		HAL_GPIO_TogglePin(GPIOB, LD1_Pin);
+	  	delayRead(&delay_LD1);/*Cuando delayRead()=True, en la proxima ejecución
+	  		  	  	  	  	   *reinicia conteo del periodo programado*/
+	  	StatusLD1_Pin = GetStatus_GPIO_Pin(GPIOB, LD1_Pin);
 	}
 
-	while (User_Button == 0)
+	if (delayRead(&delay_LD2) && (!StatusLD1_Pin) && (!StatusLD3_Pin))
 	{
-		for (int8_t i = 2; i >= 0 ; i--)
-		{
-			HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_SET);
-			HAL_Delay(200);
-			HAL_GPIO_WritePin(GPIOB, LEDS[i], GPIO_PIN_RESET);
-			HAL_Delay(200);
-		}
-		User_Button = HAL_GPIO_ReadPin(GPIOC, USER_Btn_Pin);
-
+	    HAL_GPIO_TogglePin(GPIOB, LD2_Pin);
+	  	delayRead(&delay_LD2);/*Cuando delayRead()=True, en la proxima ejecución
+	  		  		  	  	   *reinicia conteo del periodo programado*/
+	  	StatusLD2_Pin = GetStatus_GPIO_Pin(GPIOB, LD2_Pin);
 	}
 
-	/* USER CODE END WHILE */
-
+	if (delayRead(&delay_LD3) && (!StatusLD1_Pin) && (!StatusLD2_Pin))
+	{
+	 	HAL_GPIO_TogglePin(GPIOB, LD3_Pin);
+	  	delayRead(&delay_LD3);/*Cuando delayRead()=True, en la proxima ejecución
+	  	  	  		  	  	   *reinicia conteo del periodo programado*/
+	  	StatusLD3_Pin = GetStatus_GPIO_Pin(GPIOB, LD3_Pin);
+	}
+    /* USER CODE BEGIN 3 */
   }
-  /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
@@ -217,42 +234,6 @@ static void MX_USART3_UART_Init(void)
 }
 
 /**
-  * @brief USB_OTG_FS Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_OTG_FS_PCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
-
-  /* USER CODE END USB_OTG_FS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
-
-  /* USER CODE END USB_OTG_FS_Init 1 */
-  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
-  hpcd_USB_OTG_FS.Init.dev_endpoints = 6;
-  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
-  hpcd_USB_OTG_FS.Init.Sof_enable = ENABLE;
-  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.battery_charging_enable = ENABLE;
-  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
-  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
-  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
-
-  /* USER CODE END USB_OTG_FS_Init 2 */
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -303,6 +284,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : USB_SOF_Pin USB_ID_Pin USB_DM_Pin USB_DP_Pin */
+  GPIO_InitStruct.Pin = USB_SOF_Pin|USB_ID_Pin|USB_DM_Pin|USB_DP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
@@ -319,7 +308,8 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
+  /*If an error occurs the USER LED RED stays on*/
+  HAL_GPIO_WritePin(GPIOB, LD3_Pin, GPIO_PIN_SET);
   while (1)
   {
   }
