@@ -386,7 +386,7 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();/*Inicializa los LEDs de usuario en 20" (RESET), el boton de usuario es activo alto e
+  MX_GPIO_Init();/*Inicializa los LEDs de usuario en 0" (RESET), el boton de usuario es activo alto e
  8000538:	f000 f8f4 	bl	8000724 <MX_GPIO_Init>
   	  	  	  	  inicializa en modo activo por flanco creciente*/
   MX_USART3_UART_Init();
