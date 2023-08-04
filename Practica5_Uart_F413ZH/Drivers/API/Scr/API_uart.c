@@ -7,6 +7,7 @@
 
 /*Includes -------------------------------------------------------------------*/
 #include "main.h"
+#include "API_uart.h"
 #include "API_delay.h"
 
 /*Defines --------------------------------------------------------------------*/
@@ -73,10 +74,10 @@ void uartSendString(uint8_t *pstring)
 void uartSendStringSize(uint8_t *pstring, uint16_t size)
 {
 	uint16_t length = 0;
-	while (length <= size)
+	while (length < size)
 	{
 		HAL_UART_Transmit(&huart3, &pstring[length], SIZE, TIME_OUT);
-		length = length + 1;
+		length++;
 	}
 }
 
@@ -87,7 +88,7 @@ void uartReceiveStringSize(uint8_t *pstring, uint16_t size)
 	while (length <= size)
 	{
 		HAL_UART_Receive(&huart3, &pstring[length], SIZE, TIME_OUT);
-		length = length + 1;
+		length++;
 	}
 }
 
@@ -95,13 +96,13 @@ void uartReceiveStringSize(uint8_t *pstring, uint16_t size)
 //la configuración de la UART
 void showConfigUART(void)
 {
-	uartSendString("Configuracion UART\n\r");
-	uartSendString("Modulo = USART3\n\r");
-	uartSendString("Baud Rate = 115200 Bps\n\r");
-	uartSendString("Word Length = 8B (7 Data Bits + 1 Stop Bit)\n\r");
-	uartSendString("Parity = NONE\n\r");
-	uartSendString("Mode = FULL DUPPLEX\n\r");
-	uartSendString("Flow Control = NONE\n\r");
-	uartSendString("Over Sampling = OVER SAMPLING 16\n\r");
+	uartSendString((uint8_t *)"Configuracion UART\n\r");
+	uartSendString((uint8_t *)"Modulo = USART3\n\r");
+	uartSendString((uint8_t *)"Baud Rate = 115200 Bps\n\r");
+	uartSendString((uint8_t *)"Word Length = 8B (7 Data Bits + 1 Stop Bit)\n\r");
+	uartSendString((uint8_t *)"Parity = NONE\n\r");
+	uartSendString((uint8_t *)"Mode = FULL DUPPLEX\n\r");
+	uartSendString((uint8_t *)"Flow Control = NONE\n\r");
+	uartSendString((uint8_t *)"Over Sampling = OVER SAMPLING 16\n\r");
 }
 

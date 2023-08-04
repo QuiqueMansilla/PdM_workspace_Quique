@@ -118,11 +118,11 @@ int main(void)
 	  break;
 
 	  case FALLING_EDGE:
-		  uartSendString("Flanco Decreciente\n\r");
+		  uartSendString((uint8_t *)"Flanco Decreciente\n\r");
 	  break;
 
 	  case RISING_EDGE:
-		  uartSendString("Flanco Creciente\n\r");
+		  uartSendString((uint8_t *)"Flanco Creciente\n\r");
 	  break;
 
 	  default:

@@ -25,4 +25,10 @@ guarda en la variable edgeStatus.
 Este valor es tomado por la funcion switch que mostrará en pantalla el estado 
 del flanco sólo si se pulsó el boton de usuario de la placa de desarrollo. 
 
-
+NOTA
+Se agrega modificación en ultimo commit del 04/08/23 11:10 hs con modificaciones
+ que solucionan warnisngs que daba el compilador. Solucion: se realizó casteo
+en las cadenas de caracteres que se envian a la uart mediante la aplicacion de
+la funcion uartSendingString() como se ve en ejemplo en main.c 
+121   uartSendString((uint8_t *)"Flanco Decreciente\n\r"); 
+Y en todas las lineas en las que se utiliza la funcion uartSendingString() 

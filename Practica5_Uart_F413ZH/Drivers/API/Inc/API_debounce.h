@@ -8,10 +8,6 @@
 #ifndef API_INC_API_DEBOUNCE_H_
 #define API_INC_API_DEBOUNCE_H_
 
-
-
-#endif /* API_INC_API_DEBOUNCE_H_ */
-
 /*Includes -------------------------------------------------------------------*/
 #include "main.h"
 
@@ -31,3 +27,4 @@ void debounceFSM_update(bool buttonRead);
 void buttonPressed(void);
 void buttonReleased(void);
 
+#endif /* API_INC_API_DEBOUNCE_H_ */
