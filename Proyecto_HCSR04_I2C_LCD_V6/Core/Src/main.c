@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : Main program body Proyecto_HCSR04_I2C_LCD_V3
+  * @brief          : Main program body Proyecto_HCSR04_I2C_LCD_V6
   ******************************************************************************
   * @attention
   *
