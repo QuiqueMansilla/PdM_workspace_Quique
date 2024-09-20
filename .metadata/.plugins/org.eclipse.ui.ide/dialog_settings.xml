@@ -28,6 +28,24 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Ej2_uart"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Ej1_pushButton"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Ej0_blinky"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Ej0_Blinking_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\TP_Final_PdM"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Tarea1_2_InvSecuenciaLeds_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Tarea1_1_SecuenciaLeds_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Prueba_TP_Final_PdM"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Prueba_HC-SR04-I2C-LCD"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Proyecto_HCSR04_I2C_LCD_V6"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Project_asm_function"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Practica5_Uart_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Practica4_2_debounce_MEF_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Practica4_1_debounce_MEF_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Tarea3_SecuenceBlinky_DelayNotBolck_F413ZH_1"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Tarea2_2_Blinky_DelayNotBlock_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Tarea2_1_DelayNotBlock_F413ZH"/>
+			<item value="C:\Disco1\RepositoriosGitHub\PdM_workspace_Quique_1_15_1\Ejercicio_delayNB_1"/>
 			<item value="D:\RepositoriosGitHub\PdM_workspace_Quique"/>
 			<item value="/home/quique/Quique/Especializacion_Sistemas_Embebidos/CESE1_Programacion_de_Microprocesadores/PdM_workspace_Quique"/>
 		</list>
